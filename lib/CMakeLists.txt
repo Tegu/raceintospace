@@ -134,6 +134,12 @@ if (APPLE)
   set (physfs_Flags -Wno-error=deprecated-declarations)
 endif (APPLE)
 
+# GCC 6 warns about misleading indentation in physfs 2.1.0-pre20121013.
+# Again, turn the error into a warning
+if ((CMAKE_C_COMPILER_ID STREQUAL GNU) AND (CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 6))
+  set (physfs_Flags ${physfs_Flags} -Wno-error=misleading-indentation)
+endif ()
+
 ExternalProject_Add(ext_physfs
   DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/downloads
   URL ${physfs_URL}
